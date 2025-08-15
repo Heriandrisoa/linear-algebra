@@ -268,8 +268,21 @@ Matrice Matrice::inverse()
         }
 
         copy[k][k] = copy[k][k]/copy[k][k];
-        
     }
 
     return identite;
+}
+
+Matrice Matrice::transposee()
+{
+    Matrice tp({shape[1], shape[0]});
+
+    for ( int i = 0; i < shape[0]; i++)
+    {
+        for (int j = 0; j < shape[1]; j++)
+        {
+            tp[j][i] = tableau[i][j];
+        }
+    }
+    return tp;
 }

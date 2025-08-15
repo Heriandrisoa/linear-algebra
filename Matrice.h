@@ -12,13 +12,15 @@ class Matrice
         Matrice(std::vector<int> shape);
         Matrice(std::vector<float> data, std::vector<int> shape);
         std::vector<int> get_shape();
-        Matrice inverse();
         Matrice operator*(Matrice B);
         Matrice operator+(Matrice B);
         void operator=(Matrice B);
         std::vector<float>& operator[](int index);
         const std::vector<float>& operator[](int index) const;
 
+
+        Matrice inverse();
+        Matrice transposee();
     private:
         std::vector<std::vector<float>> tableau;
         std::vector<int> shape;
