@@ -1,8 +1,9 @@
 #ifndef __MATRICE__
 #define __MATRICE__
-#include "EqLin.h"
 #include <iostream>
 #include <vector>
+class EqLin;
+
 class Matrice
 {
     public:

@@ -1,18 +1,19 @@
-#include "EqLin.h"
+#include "Matrice.h"
+
 using namespace std;
  
 
 int main(int argc, char** argv)
 {
-//    cout << "ce programme résoud un système linéaire a l'aide de la factorisation LDU" << endl;
+    cout << "ce programme teste les inverses de matrices" << endl;
     try
     {
         Matrice A({-3,1,3,1}, {2,2});
         cout << A;
         Matrice B = A.inverse();
         cout  << B;
-        Matrice C = A * B; 
-        cout << C;
+         
+        cout << A*B;
     }
     catch(const std::exception& e)
     {

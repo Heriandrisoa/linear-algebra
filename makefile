@@ -1,12 +1,16 @@
-matrice:Matrice.o main.o EqLin.o
-	g++ Matrice.o main.o  EqLin.o -o matrice
-Matrice.o:Matrice.cpp Matrice.h
-	g++ -c Matrice.cpp
-EqLin.o:EqLin.cpp EqLin.h
-	g++ -c EqLin.cpp
-main.o:main.cpp
+testing:Matrice.o main.o
+	g++ main.o Matrice.o -o testing
+
+main.o:main.cpp Matrice.o
 	g++ -c main.cpp
-clean:
-	rm Matrice.o main.o matrice
+
+Matrice.o:Matrice.cpp
+	g++ -c Matrice.cpp
+
+library:
+	g++ -fPIC -c Matrice.cpp
+	g++ -shared -o libMatrice.so Matrice.o
 run:
-	./matrice
+	./testing
+clean:
+	rm *.o
