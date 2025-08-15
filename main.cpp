@@ -7,8 +7,12 @@ int main(int argc, char** argv)
 //    cout << "ce programme résoud un système linéaire a l'aide de la factorisation LDU" << endl;
     try
     {
-        string fich = "data.txt";
-        
+        Matrice A({-3,1,3,1}, {2,2});
+        cout << A;
+        Matrice B = A.inverse();
+        cout  << B;
+        Matrice C = A * B; 
+        cout << C;
     }
     catch(const std::exception& e)
     {

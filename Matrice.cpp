@@ -48,25 +48,24 @@ Matrice::Matrice(std::vector<float> data, std::vector<int> shape)
     }
 }
 
-std::ostream& operator<<(std::ostream& os, Matrice& C)
+std::ostream& operator<<(std::ostream& os,const Matrice& C)
 {
     os << "[";
     for(int i = 0; i < C.shape[0]; i++)
     {
-        std:: cout << "[";
+        os << "[";
         for(int j = 0; j < C.shape[1]; j++)
         {
-            std::cout << std::setw(3) << C[i][j]<< " ";
+            os << std::setw(3) << C[i][j]<< " ";
         }
-        std:: cout << "]";
+        os << "]";
         if (i != C.shape[0] - 1)
         {
-            std::cout << std::endl;
+            os << std::endl;
         }
     }
-    std:: cout << "]" << std::endl;
-    return os;
-    
+    os << "]" << std::endl;
+    return os;   
 }
 
 void sep()
@@ -120,6 +119,12 @@ std::vector<float>& Matrice::operator[](int index)
         return tableau[index];  
 }
 
+
+const std::vector<float>& Matrice::operator[](int index) const
+{
+    return tableau[index];  
+}
+
 Matrice id(int dim)
 {
     std::vector<int> shape ={dim, dim};
@@ -149,28 +154,122 @@ std::vector<int> Matrice::get_shape()
 
 Matrice Matrice::inverse()
 {
-    Matrice copy = *this;
 
     if(shape[0] != shape[1]) // les matrices rectangulaires ne sont pas inversible
     {
         throw std::logic_error("matrice non inversible");
     }
-
+    Matrice copy = *this;
     Matrice identite = id(shape[0]);
 
-    for (size_t k = 0; k < shape[0]; k++)
+    //triangularisation inférieur
+    for (int k = 0; k < shape[0]; k++)
     {
+
         float pivot = copy.tableau[k][k];
-        
-        for (size_t i = k + 1; i < shape[0]; i++)
+
+        //pivotage partiel
+        int line_pivot = k;
+        for(int i = k; i < shape[0]; i++)
         {
-            float to_eliminate = copy.tableau[i][k];
-            for (size_t j = k; j < shape[0]; j++)
+            if(copy[i][k] > pivot)
             {
-                copy.tableau[i][j] = copy.tableau[k][j] - pivot * copy.tableau[i][j] / to_eliminate; 
+                pivot = copy[i][k];
+                line_pivot = i;
+            }
+        }
+
+        if (pivot == 0)
+        {
+            throw std::logic_error("la Matrice A est non inversible");
+        }
+        
+        if(line_pivot != k)
+        {
+            // par matrice élémentaire
+            Matrice switcher = id(shape[0]);
+            switcher[k][k] = 0;
+            switcher[line_pivot][line_pivot] = 0;
+            switcher[line_pivot][k] = 1;
+            switcher[k][line_pivot] = 1;
+            copy = switcher * copy;
+        }
+
+        //
+
+        for (int i = k + 1; i < shape[0]; i++)
+        {
+        
+            if (copy[i][k] == 0)
+            {
+                continue;
+            }
+            float coeff = pivot/copy[i][k];
+            
+            for (int j = k; j < shape[0]; j++)
+            {
+                copy.tableau[i][j] = copy.tableau[k][j] - coeff * copy[i][j];
+                identite.tableau[i][j] = identite[k][j] - coeff * identite[i][j];
             }
         }
     }
 
-    return copy;
+    //triangularisation supérieur
+    for (int k = shape[0] - 1; k >= 0; k--)
+    {
+        float pivot = copy.tableau[k][k];
+
+        //pivotage partiel
+        int line_pivot = k;
+        for(int i = k; i >= 0; i--)
+        {
+            if(copy[i][k] > pivot)
+            {
+                pivot = copy[i][k];
+                line_pivot = i;
+            }
+        }
+
+        if (pivot == 0)
+        {
+            throw std::logic_error("la Matrice A est non inversible");
+        }
+        
+        if(line_pivot != k)
+        {
+            // par matrice élémentaire
+            Matrice switcher = id(shape[0]);
+            switcher[k][k] = 0;
+            switcher[line_pivot][line_pivot] = 0;
+            switcher[line_pivot][k] = 1;
+            switcher[k][line_pivot] = 1;
+            copy = switcher * copy;
+        }
+
+        for (int i = k - 1; i >= 0; i--)
+        {
+            if (copy[i][k] == 0)
+            {
+                continue;
+            }
+            float coeff = pivot/copy[i][k];
+            
+            for (int j = k; j >= 0; j--)
+            {
+                copy.tableau[i][j] = copy.tableau[k][j] - coeff * copy[i][j];
+                identite.tableau[i][j] = identite[k][j] - coeff * identite[i][j];
+            }
+        }
+
+        // rendre les diagonales égal a 1
+        for (int i = 0; i < shape[0]; i++)
+        {
+            identite[k][i] = (float) identite[k][i]/copy[k][k]; 
+        }
+
+        copy[k][k] = copy[k][k]/copy[k][k];
+        
+    }
+
+    return identite;
 }
