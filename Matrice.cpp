@@ -146,3 +146,31 @@ std::vector<int> Matrice::get_shape()
 {
     return shape;
 }
+
+Matrice Matrice::inverse()
+{
+    Matrice copy = *this;
+
+    if(shape[0] != shape[1]) // les matrices rectangulaires ne sont pas inversible
+    {
+        throw std::logic_error("matrice non inversible");
+    }
+
+    Matrice identite = id(shape[0]);
+
+    for (size_t k = 0; k < shape[0]; k++)
+    {
+        float pivot = copy.tableau[k][k];
+        
+        for (size_t i = k + 1; i < shape[0]; i++)
+        {
+            float to_eliminate = copy.tableau[i][k];
+            for (size_t j = k; j < shape[0]; j++)
+            {
+                copy.tableau[i][j] = copy.tableau[k][j] - pivot * copy.tableau[i][j] / to_eliminate; 
+            }
+        }
+    }
+
+    return copy;
+}

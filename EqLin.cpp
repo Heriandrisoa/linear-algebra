@@ -52,7 +52,7 @@ EqLin::EqLin(std::string fichier)
     A = new Matrice(data, shape);
     size_t n = b.size();
     P = new Matrice(id(n));
-    L = new Ma trice(id(n));
+    L = new Matrice(id(n));
     U = new Matrice(*A);
     D = new Matrice(id(n));
     solus.resize(b.size());
