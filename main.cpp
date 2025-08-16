@@ -5,13 +5,14 @@ using namespace std;
 
 int main()
 {
-    cout << "ce programme teste les transposee de matrices" << endl;
+    cout << "ce programme teste les operateurs" << endl;
     try
     {
         Matrice A({-3,1,3,1}, {2,2});
-        cout << A;
-        Matrice B = A.transposee();
-        cout  << B;
+        
+        Matrice B = A.inverse();
+        A*=B;
+        cout << B;
          
     }
     catch(const std::exception& e)

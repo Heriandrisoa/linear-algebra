@@ -11,13 +11,16 @@ class Matrice
         Matrice(const Matrice& autre);
         Matrice(std::vector<int> shape);
         Matrice(std::vector<float> data, std::vector<int> shape);
-
         std::vector<int> get_shape();
-        
-        Matrice operator*(Matrice B);
-        Matrice operator+(Matrice B);
         void operator=(Matrice B);
-        
+        Matrice operator+(Matrice B);
+        Matrice& operator+=(Matrice other);
+        Matrice operator-(Matrice B);
+        Matrice& operator-=(Matrice other);
+        Matrice operator*(Matrice B);
+        Matrice& operator*=(Matrice B);
+        Matrice operator*(float scalar);
+        Matrice& operator*=(float scalar);
         std::vector<float>& operator[](int index);
         const std::vector<float>& operator[](int index) const;
 

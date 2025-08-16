@@ -22,6 +22,33 @@ std::ostream& operator<<(std::ostream& os,const Matrice& C)
     return os;   
 }
 
+void Matrice::operator=(Matrice B)
+{
+    shape = B.shape;
+    tableau.resize(shape[0]);
+    for(int i = 0; i < shape[0]; i++)
+    {
+        tableau[i].resize(shape[1]);
+    }
+    tableau = B.tableau;
+}
+
+std::vector<int> Matrice::get_shape()
+{
+    return shape;
+}
+
+
+std::vector<float>& Matrice::operator[](int index)
+{
+        return tableau[index];  
+}
+
+const std::vector<float>& Matrice::operator[](int index) const
+{
+    return tableau[index];  
+}
+
 
 Matrice Matrice::operator+(Matrice B)
 {
@@ -39,6 +66,39 @@ Matrice Matrice::operator+(Matrice B)
         }
     }
     return C;
+}
+
+
+Matrice& Matrice::operator+=(Matrice other)
+{
+    *this = *this + other;
+    return *this;
+}
+
+Matrice Matrice::operator-(Matrice B)
+{
+ 
+    if(B.shape != shape)
+    {
+        throw std::logic_error("pour se soustraire, deux matrice doivent avoir les même shapes");
+    }
+
+    Matrice C = Matrice(shape);
+    for(int i = 0; i < B.shape[0]; i++)
+    {
+        for(int j = 0; j < B.shape[1]; j++)
+        {
+            C.tableau[i][j] = this->tableau[i][j] - B.tableau[i][j];
+        }
+    }
+    return C;
+}
+
+Matrice& Matrice::operator-=(Matrice other)
+{
+
+    *this = *this - other;
+    return *this;
 }
 
 Matrice Matrice::operator*(Matrice B)
@@ -63,31 +123,28 @@ Matrice Matrice::operator*(Matrice B)
     return C;
 }
 
-std::vector<float>& Matrice::operator[](int index)
+Matrice& Matrice::operator*=(Matrice B)
 {
-        return tableau[index];  
+    *this = *this * B;
+    return *this;
 }
 
-
-const std::vector<float>& Matrice::operator[](int index) const
+Matrice Matrice::operator*(float scalar)
 {
-    return tableau[index];  
-}
-
-
-
-void Matrice::operator=(Matrice B)
-{
-    shape = B.shape;
-    tableau.resize(shape[0]);
-    for(int i = 0; i < shape[0]; i++)
+    Matrice C = *this;
+    for (int i = 0; i < shape[0]; i++)
     {
-        tableau[i].resize(shape[1]);
+        for(int j = 0; j < shape[1]; j++)
+        {
+            C.tableau[i][j] = tableau[i][j] * scalar;
+        }
     }
-    tableau = B.tableau;
+    return C;
 }
 
-std::vector<int> Matrice::get_shape()
+Matrice& Matrice::operator*=(float scalar)
 {
-    return shape;
+    *this = (*this) * scalar;
+    return *this;
 }
+
