@@ -11,13 +11,18 @@ int main()
         Matrice A({-3,1,3,1}, {2,2});
         
         Matrice B = A.inverse();
-        A*=B;
-        cout << B;
-         
+        // A*=B;
+        // A*=2;
+        // A-=A;
+
+        Matrice C = B.inverse();
+        cout << C/A;
     }
+
     catch(const std::exception& e)
     {
         std::cerr <<"erreur :" <<  e.what() << endl;
     }
+
     return 0;
 }

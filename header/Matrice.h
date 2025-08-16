@@ -21,6 +21,8 @@ class Matrice
         Matrice& operator*=(Matrice B);
         Matrice operator*(float scalar);
         Matrice& operator*=(float scalar);
+        Matrice operator/(Matrice B);
+        Matrice& operator/=(Matrice B);
         std::vector<float>& operator[](int index);
         const std::vector<float>& operator[](int index) const;
 

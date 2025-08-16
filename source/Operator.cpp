@@ -80,18 +80,10 @@ Matrice Matrice::operator-(Matrice B)
  
     if(B.shape != shape)
     {
-        throw std::logic_error("pour se soustraire, deux matrice doivent avoir les même shapes");
+        throw std::logic_error("pour se soustraire, deux matrice doivent avoir les memes shapes");
     }
 
-    Matrice C = Matrice(shape);
-    for(int i = 0; i < B.shape[0]; i++)
-    {
-        for(int j = 0; j < B.shape[1]; j++)
-        {
-            C.tableau[i][j] = this->tableau[i][j] - B.tableau[i][j];
-        }
-    }
-    return C;
+    return *this + B*(-1);
 }
 
 Matrice& Matrice::operator-=(Matrice other)
@@ -129,6 +121,7 @@ Matrice& Matrice::operator*=(Matrice B)
     return *this;
 }
 
+
 Matrice Matrice::operator*(float scalar)
 {
     Matrice C = *this;
@@ -148,3 +141,15 @@ Matrice& Matrice::operator*=(float scalar)
     return *this;
 }
 
+Matrice Matrice::operator/(Matrice B)
+{
+    Matrice C = *this;
+    C = *this * B.inverse();
+    return C;
+}
+
+Matrice& Matrice::operator/=(Matrice B)
+{
+    *this = *this * B.inverse();
+    return *this;
+}
