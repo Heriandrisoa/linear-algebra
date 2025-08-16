@@ -1,16 +1,35 @@
-testing:Matrice.o main.o
-	g++ main.o Matrice.o -o testing
+TARGET = testing
+LIB = libMatrice.so
 
-main.o:main.cpp Matrice.o
-	g++ -c main.cpp
+CXX = g++
 
-Matrice.o:Matrice.cpp
-	g++ -c Matrice.cpp
+CXXFLAGS = -Wall -Wextra -fPIC
 
-library:
-	g++ -fPIC -c Matrice.cpp
-	g++ -shared -o libMatrice.so Matrice.o
-run:
-	./testing
+OBJS = main.o Algebra.o Operator.o Constructor.o
+
+all: $(TARGET) $(LIB)
+
+$(TARGET): $(OBJS)
+	$(CXX) $(OBJS) -o $(TARGET)
+
+$(LIB): Algebra.o Operator.o Constructor.o
+	$(CXX) -shared $^ -o $(LIB)
+
+main.o: main.cpp header/Matrice.h
+	$(CXX) $(CXXFLAGS) -c main.cpp
+
+Algebra.o: source/Algebra.cpp header/Matrice.h
+	$(CXX) $(CXXFLAGS) -c source/Algebra.cpp
+
+Operator.o: source/Operator.cpp header/Matrice.h
+	$(CXX) $(CXXFLAGS) -c source/Operator.cpp
+
+Constructor.o: source/Constructor.cpp header/Matrice.h
+	$(CXX) $(CXXFLAGS) -c source/Constructor.cpp
+
+
+run: $(TARGET)
+	./$(TARGET)
+
 clean:
-	rm *.o
+	rm -f *.o $(TARGET) $(LIB)

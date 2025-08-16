@@ -1,9 +1,9 @@
-#include "Matrice.h"
+#include "header/Matrice.h"
 
 using namespace std;
  
 
-int main(int argc, char** argv)
+int main()
 {
     cout << "ce programme teste les transposee de matrices" << endl;
     try
