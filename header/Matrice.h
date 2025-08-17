@@ -28,6 +28,7 @@ class Matrice
 
         Matrice inverse();
         Matrice transposee();
+        float scalar(Matrice b);
     private:
         std::vector<std::vector<float>> tableau;
         std::vector<int> shape;

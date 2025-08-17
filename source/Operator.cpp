@@ -104,13 +104,13 @@ Matrice Matrice::operator*(Matrice B)
     Matrice C = Matrice(new_shape);
     for(int i = 0; i < C.shape[0]; i++)
     {
-        for(int j = 0; j < C.shape[1]; j++)
-        {
-            for(int k = 0; k < this->shape[0]; k++)
-            {
-                C.tableau[i][j] += this->tableau[i][k] * B.tableau[k][j];
-            }
-        }
+         for(int j = 0; j < C.shape[1]; j++)
+         {
+             for(int k = 0; k < this->shape[1]; k++)
+             {
+                 C.tableau[i][j] += this->tableau[i][k] * B.tableau[k][j];
+             }
+         }
     }
     return C;
 }

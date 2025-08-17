@@ -5,18 +5,13 @@ using namespace std;
 
 int main()
 {
-    cout << "ce programme teste les operateurs" << endl;
+    cout << "ce programme teste les produits scalaires" << endl;
     try
     {
-        Matrice A({-3,1,3,1}, {2,2});
+        Matrice A({-3,1,3,-1}, {1,4});
+        Matrice B({1,1,1,1}, {1,4});
         
-        Matrice B = A.inverse();
-        // A*=B;
-        // A*=2;
-        // A-=A;
-
-        Matrice C = B.inverse();
-        cout << C/A;
+        cout << "scalar:" << A.scalar(B) << endl;
     }
 
     catch(const std::exception& e)

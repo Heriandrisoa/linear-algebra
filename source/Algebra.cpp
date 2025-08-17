@@ -13,6 +13,7 @@ Matrice id(int dim)
     }
     return A;
 }
+
 Matrice Matrice::inverse()
 {
 
@@ -111,4 +112,18 @@ Matrice Matrice::transposee()
         }
     }
     return tp;
+}
+
+float Matrice::scalar(Matrice b) {
+    float scal = 0;
+    if (((shape[0] == 1) || (shape[1] == 1)) &&( b.shape[0] == 1 || b.shape[1] == 1))
+    {
+        Matrice C  = (b * (*this).transposee());
+        scal = C[0][0];
+    }
+    else
+    {
+        throw std::logic_error("scalar product possible seulement sur les vecteurs\n");
+    }
+    return scal;
 }
